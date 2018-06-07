@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>PlayField</title>
+  <meta name="description" content="">
+  <meta name="author" content="Fritz Padilla">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="js/jquery-1.10.1.min.js"></script>
+  <script src="js/jquery-migrate-1.2.1.min.js"></script>
+  <script>
+    //To Do: Load the resource list JSON to the HTML page 
+    var mapResourceArr = ['01_police_officer.png','02_police_car.png', '03_police_command.png','04_swat.png','05_k9_unit.png','06_sheriff.png','07_sheriff_vehicle.png','08_sheriff_command.png','09_state_police.png','10_state_police_car.png','11_bomb_squad.png','12_rescue_boat.png','13_fire_truck.png','14_fire_command.png','15_hazmat.png','16_rescue_team.png','17_bls_ambulance.png','18_als_ambulance.png','19_triage_area.png','20_morgue.png','21_public_works.png','22_army_national_guard.png','23_incident_commander.png','24_incident_command.png','25_mobile_command.png','26_shelter.png','27_emergency_management_command_vehicle.png','28_JIC.png','29_emergency_operations_center.png','30_shelters.png','31_barricades.png','32_cones.png','33_perp.png','34_victim_green.png','34_victim_yellow.png','35_device.png','35_victim_black.png','35_victim_red.png','36_explosion.png','37_chemical_plume.png','38_fire.png']; 
+    var filePath = "img/icons/small/"; //For testing/dev purposes.  Switch to dynamic in the future. 
+    var mapResourceObj = []; 
+    for( var i=0; i < 5; i++ ) {
+      //console.log(mapResourceArr[i]); 
+      var resoureceId = mapResourceArr[i].substr(0, mapResourceArr[i].lastIndexOf('.')); 
+      resoureceId = resoureceId.substr(resoureceId.indexOf('_')+1, resoureceId.length); 
+      mapResourceObj.push({id: resoureceId, src: filePath + mapResourceArr[i]});
+    }
+    $( document ).ready(function() {
+      console.log('document ready'); 
+      init(); 
+    }); 
+  </script>
+  <script src="js/preloadjs-0.3.1.min.js"></script>
+  <script src="js/tweenjs-0.4.1.min.js"></script>
+  <script src="js/easeljs-0.6.1.min.js"></script>
+  <script src="js/LoadingBar.js"></script>
+  <script src="js/Map.js"></script>
+  <script src="js/MapResource.js"></script>
+  <script src="js/init.js"></script>
+  <style>
+    #map-container { float:left;}
+    #map-controls-container { padding: 10px; position: absolute; }
+    #map-resource-container ul li { display:inline; white-space: nowrap;}
+    #map-resource-container { overflow-x: auto; overflow-y: hidden; }
+  </style>
+</head>
+<body >
+  <div>
+    <header>
+    </header>
+    <div id="connected">:</div>
+    <div id="admin-control-container"><input type="checkbox" id="admin-control">CONTROLLER</input></div>
+    <div id="map-resource-container">
+      <ul>
+      <script type="text/javascript">
+        for (var i=0; i < mapResourceObj.length; i++) {
+          document.write('<li><img src="' + mapResourceObj[i].src + '" id="' + mapResourceObj[i].id + '" onclick="addMapElement(this, true, \'\')" /></li>'); 
+        }
+      </script>
+      </ul>
+    </div>  
+    <div id="map-controls-container">      
+      <div id="map-controls-pan">
+        <img id="map-controls-pan-image" src="img/ifield-mapcontrol-pan.png" usemap="#map-controls-pan-imagemap" border="0" width="60" height="62" alt="Map Pan Control" />
+        <map id="_map-controls-pan-imagemap" name="map-controls-pan-imagemap">
+          <area shape="rect" coords="17,0,39,18" href="#" alt="pan-up" title="pan-up" id="panUp" />
+          <area shape="rect" coords="0,18,22,36" href="#" alt="pan-left" title="pan-left" id="panLeft" />
+          <area shape="rect" coords="32,18,54,36" href="#" alt="pan-right" title="pan-right" id="panRight" />
+          <area shape="rect" coords="16,36,38,54" href="#" alt="pan-down" title="pan-down" id="panDown" />
+        </map>
+        <br/>
+      </div>
+      <div id="map-controls-zoom">
+        <img id="map-controls-zoom-image" src="img/ifield-mapcontrol-zoom.png" usemap="#map-controls-zoom-imagemap" border="0" width="60" height="62" alt="Map Pan Control" />
+        <map id="_map-controls-zoom-imagemap" name="map-controls-zoom-imagemap">
+          <area shape="rect" coords="4,2,35,28" href="#" alt="zoom-in" title="zoom-in" id="zoomIn" />
+          <area shape="rect" coords="4,28,35,54" href="#" alt="zoom-out" title="zoom-out" id="zoomOut" />
+        </map>
+      </div>        
+    </div>
+    <div id="map-container">
+      <canvas id="playfieldCanvas" width="960" height="460">Your browser does not support the HTML5 canvas element.</canvas>
+    </div>
+    <!-- JavaScript includes. Notice that socket.io.js is served by node.js -->
+    <script src="http://192.168.33.11:8080/socket.io/socket.io.js"></script>
+    <footer>     
+    </footer>
+  </div>
+</body>
+</html>

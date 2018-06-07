@@ -1,0 +1,14 @@
+---
+server:
+    install: '1'
+    packages: [nodejs, npm]
+    timezone: UTC
+    locale: en_US.UTF-8
+vagrant_local:
+    install: '1'
+    vm: { base_box: trusty64, hostname: mapdrop, ip: 192.168.33.11, memory: '512', sharedfolder: ./, syncType: nfs }
+apache:
+    install: '1'
+    docroot: /vagrant
+    servername: myApp.vb
+
